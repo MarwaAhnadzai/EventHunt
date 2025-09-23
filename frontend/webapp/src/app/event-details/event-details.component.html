@@ -1,0 +1,23 @@
+<div class="event-details-container">
+  <h2>{{ event?.eventName }}</h2>
+
+  <p><strong>Date:</strong> {{ event?.date | date: 'mediumDate' }}</p>
+  <p><strong>Time:</strong> {{ event?.time }}</p>
+
+  <p><strong>Location:</strong>
+    {{ event?.eventAddress?.city }},
+    {{ event?.eventAddress?.province }},
+    {{ event?.eventAddress?.country }}
+  </p>
+
+  <p><strong>Organizer:</strong> {{ event?.organizer?.orgName }}</p>
+  <p><strong>Email:</strong> {{ event?.organizer?.orgEmail }}</p>
+
+  <p><strong>Category:</strong> {{ event?.category }}</p>
+  <p><strong>Max Attendees:</strong> {{ event?.maxAttendees }}</p>
+  <p><strong>Ticket Price:</strong> ${{ event?.ticketPrice }}</p>
+  <p><strong>Description:</strong> {{ event?.description }}</p>
+
+  <br />
+  <button routerLink="/events">← Back to Events</button>
+</div>

@@ -1,0 +1,55 @@
+<div class="homepage-container">
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-overlay">
+      <h1>Welcome to Event Hunt 🌿</h1>
+      <p>Discover, explore, and join exciting events around you</p>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <input [(ngModel)]="searchQuery" type="text" placeholder="Search events..." />
+        <button (click)="searchEvents()">Search</button>
+      </div>
+
+      <button class="browse-btn" (click)="goToBrowseEvents()">Browse All Events</button>
+    </div>
+  </div>
+
+  <!-- Loading & Error -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading upcoming events...</p>
+  </div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <!-- Featured Categories -->
+  <div class="categories-section">
+    <h2>Explore by Category</h2>
+    <div class="category-grid">
+      <div class="category-card" *ngFor="let category of ['Music','Art','Tech','Sports','Festival','Networking']">
+        {{ category }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Events -->
+  <div *ngIf="!isLoading && events.length > 0" class="event-preview-section">
+    <h2>Upcoming Events</h2>
+    <div class="event-preview-grid">
+      <a
+        class="mini-card"
+        *ngFor="let event of events"
+        [routerLink]="['/events', event.id]"
+      >
+        <div class="event-image">
+          <img [src]="event.imageUrl || 'https://via.placeholder.com/400x200?text=Event'" alt="{{ event.title }}" />
+        </div>
+        <h3>{{ event.title || event.eventName }}</h3>
+        <p><strong>Date:</strong> {{ event.date | date: 'MMM d, y, h:mm a' }}</p>
+        <p><strong>Location:</strong> {{ event.eventAddress?.city || 'N/A' }}, {{ event.eventAddress?.province || '' }}</p>
+      </a>
+    </div>
+  </div>
+
+</div>

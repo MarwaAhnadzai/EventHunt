@@ -1,0 +1,115 @@
+/* General Container Styling */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+/* Login Link Styling */
+.login-link {
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center; /* Center the link for consistency */
+}
+
+.login-link a {
+  color: #4CAF50; /* Green color for the link */
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+
+/* Card Styling */
+.register-card {
+  width: 100%;
+  max-width: 400px; /* Adjusted to match the login width */
+  padding: 30px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+/* Title Styling */
+.register-card h2 {
+  font-size: 24px;
+  color: #4CAF50;
+  margin-bottom: 20px;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+/* Input Fields Styling */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+mat-form-field input {
+  padding: 12px;
+  font-size: 16px;
+  height: 45px;
+}
+
+mat-form-field input::placeholder {
+  color: #999; /* Lighter color for placeholder text */
+  font-size: 14px;
+}
+
+/* Register Link Styling */
+.register-link {
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.register-link a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Register Button Styling */
+button.full-width {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+button.full-width:hover {
+  background-color: #45a049;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .register-card {
+    padding: 20px;
+  }
+
+  .register-card h2 {
+    font-size: 22px;
+  }
+
+  mat-form-field input {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  button.full-width {
+    font-size: 14px;
+  }
+}

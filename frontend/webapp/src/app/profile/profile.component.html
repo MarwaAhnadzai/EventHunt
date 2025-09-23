@@ -1,0 +1,9 @@
+<div class="profile-container" *ngIf="user; else noUser">
+  <h2>👤 Welcome, {{ user.username }}</h2>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Role:</strong> {{ user.role }}</p>
+</div>
+
+<ng-template #noUser>
+  <p>No user logged in. Please login first.</p>
+</ng-template>

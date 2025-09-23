@@ -1,0 +1,122 @@
+/* Page Container */
+.event-page-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.header h1 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 0.5rem;
+}
+.header p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.filters input,
+.filters select {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.filters button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #28a745;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+.filters .reset-btn {
+  background: #6c757d;
+}
+
+/* Events Grid */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Event Card */
+.event-card {
+  background: #ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 2px solid #28a745;
+  display: flex;
+  flex-direction: column;
+}
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  border-color: #218838;
+}
+
+/* Event Image */
+.event-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Event Info */
+.event-info {
+  padding: 1rem 1.2rem;
+  flex-grow: 1;
+}
+.event-info h3 {
+  color: #2e7d32;
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+}
+.event-info p {
+  margin: 0.3rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+.event-info button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+.event-info button:hover {
+  background: #218838;
+}
+
+/* No Events Message */
+.no-events {
+  text-align: center;
+  color: #c62828;
+  font-weight: 600;
+  margin-top: 2rem;
+}

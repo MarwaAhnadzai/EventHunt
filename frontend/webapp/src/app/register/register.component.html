@@ -1,0 +1,20 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <h2>Create a New Account</h2>
+
+    <form (ngSubmit)="onRegister()">
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="email" [(ngModel)]="email" name="email" placeholder="Enter your email" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Enter your password" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width">Register</button>
+     
+    </form>
+
+    <p class="login-link">Already have an account? <a routerLink="/login"> Login Here</a> </p>
+  </mat-card>
+</div>

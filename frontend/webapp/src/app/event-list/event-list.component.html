@@ -1,0 +1,50 @@
+<div class="event-page-container">
+
+  <!-- Page Header -->
+  <div class="header">
+    <h1>All Events</h1>
+    <p>Find the perfect event for you</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search events..." (input)="applyFilters()">
+    
+    <select [(ngModel)]="selectedCategory" (change)="applyFilters()">
+      <option value="">All Categories</option>
+      <option *ngFor="let c of categories">{{ c }}</option>
+    </select>
+
+    <input type="date" [(ngModel)]="fromDate" (change)="applyFilters()" placeholder="From">
+    <input type="date" [(ngModel)]="toDate" (change)="applyFilters()" placeholder="To">
+
+    <select [(ngModel)]="selectedSort" (change)="applyFilters()">
+      <option value="">Sort By</option>
+      <option value="date">Date</option>
+    </select>
+
+    <button class="reset-btn" (click)="resetFilters()">Reset</button>
+  </div>
+
+  <!-- Events Grid -->
+  <div class="event-grid">
+    <div class="event-card" *ngFor="let event of filteredEvents">
+      <div class="event-image">
+        <img [src]="event.imageUrl || 'https://via.placeholder.com/400x200?text=Event'" alt="{{ event.title }}">
+      </div>
+      <div class="event-info">
+        <h3>{{ event.title }}</h3>
+        <p><strong>Category:</strong> {{ event.category }}</p>
+        <p><strong>Date:</strong> {{ event.date | date:'MMM d, y, h:mm a' }}</p>
+        <p><strong>Location:</strong> {{ event.eventAddress?.city || 'N/A' }}, {{ event.eventAddress?.province || '' }}</p>
+        <button (click)="goToEvent(event.id)">View Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Events Message -->
+  <div *ngIf="filteredEvents.length === 0" class="no-events">
+    <p>No events found matching your filters.</p>
+  </div>
+
+</div>

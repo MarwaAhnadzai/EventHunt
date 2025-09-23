@@ -1,0 +1,15 @@
+<div class="create-event">
+  <h2>Create New Event</h2>
+  <form (ngSubmit)="onCreateEvent()">
+    <label>Title</label>
+    <input type="text" [(ngModel)]="title" name="title" required />
+
+    <label>Description</label>
+    <textarea [(ngModel)]="description" name="description" required></textarea>
+
+    <label>Date</label>
+    <input type="datetime-local" [(ngModel)]="date" name="date" required />
+
+    <button type="submit">Create Event</button>
+  </form>
+</div>
