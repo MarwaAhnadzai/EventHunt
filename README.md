@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Event Hunt 🌿
 
 Event Hunt is a modern web application that allows users to discover, explore, and join exciting events around them. Built with **Angular** for the frontend and **Node.js/Express** with **PostgreSQL** for the backend.
@@ -126,3 +127,7 @@ This project is licensed under the MIT License.
 ---
 
 
+=======
+# EventHunt
+EventHunt - Capstone Project (Angular + Node.js event management platform)
+>>>>>>> 0fab566b961cf51e90fd6be5cca6ea8f2c71054a
