@@ -125,8 +125,5 @@ This project is licensed under the MIT License.
 
 ---
 
-
-=======
 # EventHunt
 EventHunt - Capstone Project (Angular + Node.js event management platform)
->>>>>>> 0fab566b961cf51e90fd6be5cca6ea8f2c71054a
