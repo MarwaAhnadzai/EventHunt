@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Event Hunt 🌿
 
 Event Hunt is a modern web application that allows users to discover, explore, and join exciting events around them. Built with **Angular** for the frontend and **Node.js/Express** with **PostgreSQL** for the backend.
@@ -39,7 +38,7 @@ Event Hunt is a modern web application that allows users to discover, explore, a
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/MarwaAhnadzai/event-hunt.git
+git clone (https://github.com/MarwaAhnadzai/EventHunt.git)
 cd event-hunt
 ````
 
