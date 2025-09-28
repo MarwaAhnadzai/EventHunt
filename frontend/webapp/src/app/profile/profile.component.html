@@ -1,9 +1,128 @@
-<div class="profile-container" *ngIf="user; else noUser">
-  <h2>👤 Welcome, {{ user.username }}</h2>
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  <p><strong>Role:</strong> {{ user.role }}</p>
-</div>
+<!-- src/app/profile/profile.component.html -->
+<div class="profile-container">
+  <div class="container">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading profile...</p>
+    </div>
 
-<ng-template #noUser>
-  <p>No user logged in. Please login first.</p>
-</ng-template>
+    <!-- Profile Content -->
+    <div *ngIf="!isLoading && user" class="profile-content">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <mat-card>
+          <mat-card-content>
+            <div class="header-content">
+              <div class="user-avatar">
+                {{ user.username?.charAt(0)?.toUpperCase() || 'U' }}
+              </div>
+              <div class="user-info">
+                <h1>{{ user.username }}</h1>
+                <p>{{ user.email }}</p>
+                <div class="user-stats">
+                  <span class="stat">
+                    <strong>{{ userEvents.length }}</strong> Events Created
+                  </span>
+                  <span class="stat">
+                    <strong>Member since:</strong> {{ user.createdAt | date:'mediumDate' }}
+                  </span>
+                </div>
+              </div>
+              <div class="header-actions">
+                <button mat-raised-button color="primary" (click)="editProfile()">
+                  Edit Profile
+                </button>
+                <button mat-raised-button color="accent" (click)="goToCreateEvent()">
+                  Create Event
+                </button>
+                <button mat-button color="warn" (click)="logout()">
+                  Logout
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- My Events Section -->
+      <div class="events-section">
+        <div class="section-header">
+          <h2>My Events</h2>
+          <button mat-raised-button color="primary" (click)="goToCreateEvent()">
+            + Create New Event
+          </button>
+        </div>
+
+        <!-- Events Grid -->
+        <div *ngIf="userEvents.length > 0" class="events-grid">
+          <div *ngFor="let event of userEvents" class="event-card">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>{{ event.title }}</mat-card-title>
+                <mat-card-subtitle>
+                  {{ event.date | date:'mediumDate' }} • {{ event.location }}
+                </mat-card-subtitle>
+              </mat-card-header>
+
+              <mat-card-content>
+                <p class="event-description">
+                  {{ (event.description || 'No description') | slice:0:100 }}
+                  {{ event.description && event.description.length > 100 ? '...' : '' }}
+                </p>
+                <div class="event-meta">
+                  <span class="category-badge">{{ event.category }}</span>
+                  <span *ngIf="event.maxAttendees" class="attendees">
+                    👥 {{ event.attendeeCount || 0 }}/{{ event.maxAttendees }}
+                  </span>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button color="primary" [routerLink]="['/event-details', event.id]">
+                  View
+                </button>
+                <button mat-button color="accent" [routerLink]="['/edit-event', event.id]">
+                  Edit
+                </button>
+                <button mat-button color="warn" (click)="deleteEvent(event.id)">
+                  Delete
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+
+        <!-- No Events State -->
+        <div *ngIf="userEvents.length === 0" class="no-events">
+          <mat-card>
+            <mat-card-content>
+              <div class="no-events-content">
+                <h3>No events created yet</h3>
+                <p>Start by creating your first event!</p>
+                <button mat-raised-button color="primary" (click)="goToCreateEvent()">
+                  Create Your First Event
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Not Logged In State -->
+    <div *ngIf="!isLoading && !user" class="not-logged-in">
+      <mat-card>
+        <mat-card-content>
+          <div class="login-prompt">
+            <h2>Please Log In</h2>
+            <p>You need to be logged in to view your profile</p>
+            <button mat-raised-button color="primary" routerLink="/login">
+              Sign In
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

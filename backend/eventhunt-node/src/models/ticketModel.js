@@ -2,7 +2,7 @@
 // Ticket table for RSVP / Event registration
 
 import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import sequelize from "../config/database.js";
 
 const Ticket = sequelize.define("Ticket", {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },

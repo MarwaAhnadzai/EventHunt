@@ -1,20 +1,143 @@
+<!-- src/app/register/register.component.html -->
 <div class="register-container">
-  <mat-card class="register-card">
-    <h2>Create a New Account</h2>
+  <div class="register-card-container">
+    <mat-card class="register-card">
+      <mat-card-header>
+        <mat-card-title>Join EventHunt</mat-card-title>
+        <mat-card-subtitle>Create your account to start exploring events</mat-card-subtitle>
+      </mat-card-header>
 
-    <form (ngSubmit)="onRegister()">
-      <mat-form-field appearance="outline" class="full-width">
-        <input matInput type="email" [(ngModel)]="email" name="email" placeholder="Enter your email" required>
-      </mat-form-field>
+      <mat-card-content>
+        <form (ngSubmit)="onRegister()" class="register-form">
+          <!-- Username -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Username</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="username" 
+              name="username" 
+              required
+              placeholder="Choose a username"
+            >
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>Username is required</mat-error>
+          </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Enter your password" required>
-      </mat-form-field>
+          <!-- Email -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email Address</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="email" 
+              name="email" 
+              type="email"
+              required
+              placeholder="Enter your email"
+            >
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error>Please enter a valid email address</mat-error>
+          </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full-width">Register</button>
-     
-    </form>
+          <!-- Password -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="password" 
+              name="password" 
+              type="password"
+              required
+              placeholder="Create a password (min. 6 characters)"
+              (input)="onPasswordChange()"
+            >
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error>Password must be at least 6 characters</mat-error>
+          </mat-form-field>
 
-    <p class="login-link">Already have an account? <a routerLink="/login"> Login Here</a> </p>
-  </mat-card>
+          <!-- Password Strength Indicator -->
+          <div *ngIf="password" class="password-strength">
+            <div class="strength-bar">
+              <div [class]="passwordStrength.class" class="strength-fill"></div>
+            </div>
+            <span class="strength-text">{{ passwordStrength.text }}</span>
+          </div>
+
+          <!-- Confirm Password -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="confirmPassword" 
+              name="confirmPassword" 
+              type="password"
+              required
+              placeholder="Confirm your password"
+            >
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error>Passwords must match</mat-error>
+          </mat-form-field>
+
+          <!-- Password Match Error -->
+          <div *ngIf="confirmPassword && !passwordsMatch()" class="password-match-error">
+            <mat-icon>error</mat-icon>
+            Passwords do not match
+          </div>
+
+          <!-- Terms and Conditions -->
+          <div class="terms-agreement">
+            <mat-checkbox 
+              [(ngModel)]="acceptTerms" 
+              name="acceptTerms"
+              color="primary"
+              required>
+            </mat-checkbox>
+            <label>
+              I agree to the <a href="#" (click)="$event.preventDefault()">Terms of Service</a> 
+              and <a href="#" (click)="$event.preventDefault()">Privacy Policy</a>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            mat-raised-button 
+            color="primary" 
+            class="register-btn"
+            [disabled]="isLoading || !isFormValid()"
+          >
+            <span *ngIf="!isLoading">Create Account</span>
+            <span *ngIf="isLoading" class="loading-dots">
+              Creating Account<span>.</span><span>.</span><span>.</span>
+            </span>
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+          <span>or</span>
+        </div>
+
+        <!-- Login Link -->
+        <div class="login-link">
+          <p>Already have an account?</p>
+          <button mat-button color="primary" routerLink="/login">
+            Sign In
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Benefits List -->
+    <div class="benefits-sidebar">
+      <h3>Create & Discover Events</h3>
+      <ul class="benefits-list">
+        <li>✅ Create and manage your own events</li>
+        <li>✅ Book tickets to amazing experiences</li>
+        <li>✅ Get personalized recommendations</li>
+        <li>✅ Connect with event organizers</li>
+        <li>✅ Receive event updates and reminders</li>
+        <li>✅ Build your event-going history</li>
+      </ul>
+    </div>
+  </div>
 </div>

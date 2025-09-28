@@ -1,0 +1,109 @@
+<!-- src/app/profile-edit/profile-edit.component.html -->
+<div class="profile-edit-container">
+  <div class="container">
+    <!-- Success Message -->
+    <div *ngIf="showSuccessMessage" class="message success-message">
+      {{ message }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="showErrorMessage" class="message error-message">
+      {{ message }}
+    </div>
+
+    <mat-card class="profile-edit-card">
+      <h2>Edit Profile</h2>
+
+      <!-- Profile Picture Section -->
+      <div class="profile-picture-section">
+        <div class="profile-avatar">
+          {{ getAvatarInitials() }}
+        </div>
+        <div class="avatar-upload">
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+          <button type="button" class="avatar-upload-btn" (click)="fileInput.click()">
+            Change Photo
+          </button>
+          <span class="avatar-hint">JPG, PNG or GIF, Max 5MB</span>
+        </div>
+      </div>
+
+      <form (ngSubmit)="saveProfile()" class="profile-edit-form">
+        <!-- Name Row -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>First Name</mat-label>
+            <input matInput [(ngModel)]="user.firstName" name="firstName" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>First name is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput [(ngModel)]="user.lastName" name="lastName" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>Last name is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Contact Info -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="user.email" name="email" type="email" required>
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error>Valid email is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone</mat-label>
+          <input matInput [(ngModel)]="user.phone" name="phone" type="tel" placeholder="+1 (555) 123-4567">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+
+        <!-- Additional Info -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput [(ngModel)]="user.dob" name="dob" type="date">
+          <mat-icon matSuffix>calendar_today</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
+          <input matInput [(ngModel)]="user.address" name="address" placeholder="Enter your full address">
+          <mat-icon matSuffix>location_on</mat-icon>
+        </mat-form-field>
+
+        <!-- Read-only Fields -->
+        <div class="readonly-field">
+          <label>Username</label>
+          <div class="value">{{ user.username }}</div>
+          <small>Username cannot be changed</small>
+        </div>
+
+        <div class="readonly-field">
+          <label>Member Since</label>
+          <div class="value">{{ user.createdAt | date:'mediumDate' }}</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button type="button" mat-raised-button class="cancel-button" (click)="cancelEdit()">
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            mat-raised-button 
+            color="primary" 
+            class="save-button"
+            [disabled]="isLoading"
+          >
+            <span *ngIf="!isLoading">Save Changes</span>
+            <span *ngIf="isLoading" class="loading-dots">
+              Saving<span>.</span><span>.</span><span>.</span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

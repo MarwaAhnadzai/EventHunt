@@ -1,25 +1,23 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';  // Import the RegisterComponent
-import { LoginComponent } from './login/login.component';
-import { ProfileComponent } from './profile/profile.component';
-import { MyEventsComponent } from './my-events/my-events.component';
 import { CreateEventComponent } from './create-event/create-event.component';
+import { EventEditComponent } from './event-edit/event-edit.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AuthGuardService } from './auth-guard.service';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 export const APP_ROUTES: Routes = [
-  { path: '', component: HomeComponent },  // Home route
-  { path: 'events', component: EventListComponent },  // Events list route
-  { path: 'event-details/:id', component: EventDetailsComponent },  // Event details route
-  { path: 'register', component: RegisterComponent },  // Register route
-  { path: 'login', component: LoginComponent }, 
-  { path: 'profile', component: ProfileComponent },
-{ path: 'profile/edit', component: ProfileComponent },
-{ path: 'my-events', component: MyEventsComponent },
-{ path: 'create-event', component: CreateEventComponent },   
-{ path: 'edit-event/:id', component: MyEventsComponent },
-{ path: 'create-event', component: CreateEventComponent },
-{ path: 'profile', component: ProfileComponent }
-
+  { path: '', component: HomeComponent },
+  { path: 'events', component: EventListComponent },
+  { path: 'event-details/:id', component: EventDetailsComponent },
+  { path: 'create-event', component: CreateEventComponent, canActivate: [AuthGuardService] },
+  { path: 'edit-event/:id', component: EventEditComponent, canActivate: [AuthGuardService] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'profile-edit', component: ProfileEditComponent, canActivate: [AuthGuardService] }, // Add this route
 ];

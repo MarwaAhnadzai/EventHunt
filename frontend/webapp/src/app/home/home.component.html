@@ -1,55 +1,114 @@
-<div class="homepage-container">
-
+<!-- src/app/home/home.component.html -->
+<div class="home-container">
   <!-- Hero Section -->
-  <div class="hero-section">
-    <div class="hero-overlay">
-      <h1>Welcome to Event Hunt 🌿</h1>
-      <p>Discover, explore, and join exciting events around you</p>
-
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Discover Amazing Events Near You</h1>
+      <p class="hero-subtitle">Find, book, and create unforgettable experiences</p>
+      
       <!-- Search Bar -->
-      <div class="search-bar">
-        <input [(ngModel)]="searchQuery" type="text" placeholder="Search events..." />
-        <button (click)="searchEvents()">Search</button>
+      <div class="search-container">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          placeholder="Search events by name, category, or location..."
+          class="search-input"
+          (keyup.enter)="searchEvents()"
+        >
+        <button (click)="searchEvents()" class="search-btn">
+          <span>🔍</span> Search
+        </button>
       </div>
-
-      <button class="browse-btn" (click)="goToBrowseEvents()">Browse All Events</button>
-    </div>
-  </div>
-
-  <!-- Loading & Error -->
-  <div *ngIf="isLoading" class="loading-spinner">
-    <div class="spinner"></div>
-    <p>Loading upcoming events...</p>
-  </div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-
-  <!-- Featured Categories -->
-  <div class="categories-section">
-    <h2>Explore by Category</h2>
-    <div class="category-grid">
-      <div class="category-card" *ngFor="let category of ['Music','Art','Tech','Sports','Festival','Networking']">
-        {{ category }}
+      
+      <div class="hero-actions">
+        <button routerLink="/events" class="btn-primary">Browse All Events</button>
+        <button routerLink="/create-event" class="btn-secondary">Create Event</button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Upcoming Events -->
-  <div *ngIf="!isLoading && events.length > 0" class="event-preview-section">
-    <h2>Upcoming Events</h2>
-    <div class="event-preview-grid">
-      <a
-        class="mini-card"
-        *ngFor="let event of events"
-        [routerLink]="['/events', event.id]"
-      >
-        <div class="event-image">
-          <img [src]="event.imageUrl || 'https://via.placeholder.com/400x200?text=Event'" alt="{{ event.title }}" />
+  <!-- Featured Events Section -->
+  <section class="featured-events">
+    <div class="container">
+      <h2>Featured Events</h2>
+      
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading events...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="errorMessage" class="error-container">
+        <p>{{ errorMessage }}</p>
+        <button (click)="loadEvents()" class="btn-primary">Try Again</button>
+      </div>
+
+      <!-- Events Grid -->
+      <div *ngIf="!isLoading && !errorMessage" class="events-grid">
+        <div *ngFor="let event of events" class="event-card" (click)="goToEventDetails(event.id)">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ event.title }}</mat-card-title>
+              <mat-card-subtitle>
+                {{ event.date | date:'mediumDate' }} • {{ event.location }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <p class="event-description">
+                {{ event.description || 'No description available' }}
+              </p>
+              <span class="category-badge">{{ event.category }}</span>
+            </mat-card-content>
+            
+            <mat-card-actions>
+              <button mat-button color="primary">View Details</button>
+            </mat-card-actions>
+          </mat-card>
         </div>
-        <h3>{{ event.title || event.eventName }}</h3>
-        <p><strong>Date:</strong> {{ event.date | date: 'MMM d, y, h:mm a' }}</p>
-        <p><strong>Location:</strong> {{ event.eventAddress?.city || 'N/A' }}, {{ event.eventAddress?.province || '' }}</p>
-      </a>
-    </div>
-  </div>
+      </div>
 
+      <!-- No Events State -->
+      <div *ngIf="!isLoading && events.length === 0" class="no-events">
+        <h3>No events found</h3>
+        <p>Try adjusting your search or browse all events</p>
+        <button routerLink="/events" class="btn-primary">Browse Events</button>
+      </div>
+
+      <!-- View All Events Button -->
+      <div *ngIf="events.length > 0" class="view-all-container">
+        <button routerLink="/events" class="btn-outline">View All Events</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2>Why Choose EventHunt?</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">🎯</div>
+          <h3>Easy Discovery</h3>
+          <p>Find events tailored to your interests with smart search and filters</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎫</div>
+          <h3>Quick Booking</h3>
+          <p>Secure your spot in just a few clicks with instant confirmation</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <h3>Mobile Friendly</h3>
+          <p>Access events on any device, anywhere, anytime</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌟</div>
+          <h3>Trusted Community</h3>
+          <p>Join thousands of event organizers and attendees</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

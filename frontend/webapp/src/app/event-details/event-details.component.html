@@ -1,23 +1,151 @@
+<!-- src/app/event-details/event-details.component.html -->
 <div class="event-details-container">
-  <h2>{{ event?.eventName }}</h2>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading event details...</p>
+  </div>
 
-  <p><strong>Date:</strong> {{ event?.date | date: 'mediumDate' }}</p>
-  <p><strong>Time:</strong> {{ event?.time }}</p>
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-container">
+    <mat-card>
+      <mat-card-content>
+        <h2>Event Not Found</h2>
+        <p>{{ errorMessage }}</p>
+        <button mat-raised-button color="primary" routerLink="/events">
+          Back to Events
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
-  <p><strong>Location:</strong>
-    {{ event?.eventAddress?.city }},
-    {{ event?.eventAddress?.province }},
-    {{ event?.eventAddress?.country }}
-  </p>
+  <!-- Event Details -->
+  <div *ngIf="!isLoading && !errorMessage && event" class="event-content">
+    <div class="container">
+      <!-- Event Header -->
+      <div class="event-header">
+        <div class="event-info">
+          <h1>{{ event.title }}</h1>
+          <div class="event-meta">
+            <span class="date">📅 {{ event.date | date:'fullDate' }}</span>
+            <span class="time">⏰ {{ event.date | date:'shortTime' }}</span>
+            <span class="location">📍 {{ event.location }}</span>
+            <span class="category-badge">{{ event.category }}</span>
+          </div>
+        </div>
+        
+        <div class="event-actions">
+          <button 
+            *ngIf="isLoggedIn()"
+            mat-raised-button 
+            color="primary" 
+            class="book-btn"
+            (click)="bookTicket()"
+          >
+            🎫 Book Ticket
+          </button>
+          <button 
+            *ngIf="!isLoggedIn()"
+            mat-raised-button 
+            color="primary"
+            routerLink="/login"
+          >
+            Login to Book
+          </button>
+        </div>
+      </div>
 
-  <p><strong>Organizer:</strong> {{ event?.organizer?.orgName }}</p>
-  <p><strong>Email:</strong> {{ event?.organizer?.orgEmail }}</p>
+      <div class="event-body">
+        <!-- Main Content -->
+        <div class="event-main">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Event Description</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="event-description">
+                {{ event.description || 'No description provided for this event.' }}
+              </p>
+            </mat-card-content>
+          </mat-card>
 
-  <p><strong>Category:</strong> {{ event?.category }}</p>
-  <p><strong>Max Attendees:</strong> {{ event?.maxAttendees }}</p>
-  <p><strong>Ticket Price:</strong> ${{ event?.ticketPrice }}</p>
-  <p><strong>Description:</strong> {{ event?.description }}</p>
+          <!-- Additional Info -->
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Event Details</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="details-grid">
+                <div class="detail-item">
+                  <strong>Date & Time:</strong>
+                  <span>{{ event.date | date:'fullDate' }} at {{ event.date | date:'shortTime' }}</span>
+                </div>
+                <div class="detail-item">
+                  <strong>Location:</strong>
+                  <span>{{ event.location }}</span>
+                </div>
+                <div class="detail-item">
+                  <strong>Category:</strong>
+                  <span>{{ event.category }}</span>
+                </div>
+                <div class="detail-item" *ngIf="event.maxAttendees">
+                  <strong>Capacity:</strong>
+                  <span>{{ event.attendeeCount || 0 }}/{{ event.maxAttendees }} attendees</span>
+                </div>
+                <div class="detail-item" *ngIf="event.organizer">
+                  <strong>Organizer:</strong>
+                  <span>{{ event.organizer.username }}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
 
-  <br />
-  <button routerLink="/events">← Back to Events</button>
+        <!-- Sidebar -->
+        <div class="event-sidebar">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Quick Info</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="quick-info">
+                <div class="info-item">
+                  <span class="label">Status:</span>
+                  <span class="value available">Available</span>
+                </div>
+                <div class="info-item" *ngIf="event.maxAttendees">
+                  <span class="label">Spots Left:</span>
+                  <span class="value">
+                    {{ (event.maxAttendees - (event.attendeeCount || 0)) }} available
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Category:</span>
+                  <span class="value">{{ event.category }}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Organizer Info -->
+          <mat-card *ngIf="event.organizer">
+            <mat-card-header>
+              <mat-card-title>Organizer</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="organizer-info">
+                <div class="organizer-avatar">
+                  {{ event.organizer.username?.charAt(0)?.toUpperCase() || 'O' }}
+                </div>
+                <div class="organizer-details">
+                  <strong>{{ event.organizer.username }}</strong>
+                  <span>{{ event.organizer.email }}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

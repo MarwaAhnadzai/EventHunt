@@ -1,50 +1,147 @@
-<div class="event-page-container">
+<!-- src/app/event-list/event-list.component.html -->
+<div class="event-list-container">
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h1>All Events</h1>
+      <p>Discover amazing events happening around you</p>
+    </div>
 
-  <!-- Page Header -->
-  <div class="header">
-    <h1>All Events</h1>
-    <p>Find the perfect event for you</p>
-  </div>
+    <!-- Filters Section -->
+    <div class="filters-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="filters-grid">
+            <!-- Search -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Search Events</mat-label>
+              <input 
+                matInput 
+                [(ngModel)]="searchQuery" 
+                placeholder="Search by title, description..."
+                (keyup)="applyFilters()"
+              >
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
 
-  <!-- Filters -->
-  <div class="filters">
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Search events..." (input)="applyFilters()">
-    
-    <select [(ngModel)]="selectedCategory" (change)="applyFilters()">
-      <option value="">All Categories</option>
-      <option *ngFor="let c of categories">{{ c }}</option>
-    </select>
+            <!-- Category Filter -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Category</mat-label>
+              <mat-select [(ngModel)]="selectedCategory" (selectionChange)="applyFilters()">
+                <mat-option value="">All Categories</mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category">
+                  {{ category }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-    <input type="date" [(ngModel)]="fromDate" (change)="applyFilters()" placeholder="From">
-    <input type="date" [(ngModel)]="toDate" (change)="applyFilters()" placeholder="To">
+            <!-- Sort Filter -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Sort By</mat-label>
+              <mat-select [(ngModel)]="selectedSort" (selectionChange)="applyFilters()">
+                <mat-option value="">Default</mat-option>
+                <mat-option value="date">Date (Soonest)</mat-option>
+                <mat-option value="title">Title (A-Z)</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-    <select [(ngModel)]="selectedSort" (change)="applyFilters()">
-      <option value="">Sort By</option>
-      <option value="date">Date</option>
-    </select>
+            <!-- Date Range -->
+            <div class="date-range-filters">
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>From Date</mat-label>
+                <input 
+                  matInput 
+                  [(ngModel)]="fromDate" 
+                  type="date"
+                  (change)="applyFilters()"
+                >
+              </mat-form-field>
 
-    <button class="reset-btn" (click)="resetFilters()">Reset</button>
-  </div>
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>To Date</mat-label>
+                <input 
+                  matInput 
+                  [(ngModel)]="toDate" 
+                  type="date"
+                  (change)="applyFilters()"
+                >
+              </mat-form-field>
+            </div>
 
-  <!-- Events Grid -->
-  <div class="event-grid">
-    <div class="event-card" *ngFor="let event of filteredEvents">
-      <div class="event-image">
-        <img [src]="event.imageUrl || 'https://via.placeholder.com/400x200?text=Event'" alt="{{ event.title }}">
+            <!-- Action Buttons -->
+            <div class="filter-actions">
+              <button mat-raised-button color="primary" (click)="applyFilters()">
+                Apply Filters
+              </button>
+              <button mat-button (click)="resetFilters()">
+                Clear All
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading events...</p>
+    </div>
+
+    <!-- Events Grid -->
+    <div *ngIf="!isLoading" class="events-section">
+      <div class="results-info">
+        <h3>
+          {{ filteredEvents.length }} 
+          {{ filteredEvents.length === 1 ? 'event' : 'events' }} found
+        </h3>
       </div>
-      <div class="event-info">
-        <h3>{{ event.title }}</h3>
-        <p><strong>Category:</strong> {{ event.category }}</p>
-        <p><strong>Date:</strong> {{ event.date | date:'MMM d, y, h:mm a' }}</p>
-        <p><strong>Location:</strong> {{ event.eventAddress?.city || 'N/A' }}, {{ event.eventAddress?.province || '' }}</p>
-        <button (click)="goToEvent(event.id)">View Details</button>
+
+      <div class="events-grid">
+        <div *ngFor="let event of filteredEvents" class="event-card">
+          <mat-card (click)="goToEvent(event.id)">
+            <mat-card-header>
+              <mat-card-title>{{ event.title }}</mat-card-title>
+              <mat-card-subtitle>
+                {{ event.date | date:'fullDate' }} at {{ event.date | date:'shortTime' }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p class="location">📍 {{ event.location }}</p>
+              <p class="description">
+                {{ (event.description || 'No description available') | slice:0:100 }}
+                {{ event.description && event.description.length > 100 ? '...' : '' }}
+              </p>
+              <div class="event-meta">
+                <span class="category-badge">{{ event.category }}</span>
+                <span *ngIf="event.maxAttendees" class="attendees">
+                  👥 {{ event.attendeeCount || 0 }}/{{ event.maxAttendees }}
+                </span>
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-button color="primary">View Details</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- No Events State -->
+      <div *ngIf="filteredEvents.length === 0" class="no-events">
+        <mat-card>
+          <mat-card-content>
+            <div class="no-events-content">
+              <h3>No events found</h3>
+              <p>Try adjusting your filters or search terms</p>
+              <button mat-raised-button color="primary" (click)="resetFilters()">
+                Clear All Filters
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
   </div>
-
-  <!-- No Events Message -->
-  <div *ngIf="filteredEvents.length === 0" class="no-events">
-    <p>No events found matching your filters.</p>
-  </div>
-
 </div>

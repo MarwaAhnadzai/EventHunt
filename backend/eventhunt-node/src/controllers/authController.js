@@ -1,85 +1,122 @@
-// src/controllers/authController.js
-// Handles user registration and login
+// backend/eventhunt-node/src/controllers/authController.js
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { User } from '../models/User.js';
 
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import User from "../models/userModel.js";
-
-// ✅ Register new user
+// Register new user
 export const register = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
-
     // Check if user already exists
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({
+      where: {
+        [Op.or]: [{ email }, { username }]
+      }
+    });
+
     if (existingUser) {
-      return res.status(400).json({ error: "Email already registered" });
+      return res.status(400).json({ error: 'User already exists with this email or username' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    // Create user
     const user = await User.create({
-      username: username || email.split("@")[0],
+      username,
       email,
       password: hashedPassword,
-      role: role || "EVENTHUNT_USER",
+      role: role || 'EVENTHUNT_USER'
     });
 
-    // Exclude password from response
-    const { password: _, ...safeUser } = user.toJSON();
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '24h' }
+    );
+
+    // Return user data (without password) and token
+    const userResponse = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    };
 
     res.status(201).json({
-      message: "User registered successfully",
-      user: safeUser,
+      message: 'User registered successfully',
+      token,
+      user: userResponse
     });
-  } catch (err) {
-    console.error("🔥 Registration error:", err);
-    res.status(500).json({ error: "Registration failed: " + err.message });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
-// ✅ Login existing user
+// Login user
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("👉 Login attempt:", email);
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
 
     // Find user by email
     const user = await User.findOne({ where: { email } });
+
     if (!user) {
-      console.log("❌ User not found:", email);
-      return res.status(404).json({ error: "User not found" });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Compare password
-    const isValid = await bcrypt.compare(password, user.password || "");
-    if (!isValid) {
-      console.log("❌ Invalid password for:", email);
-      return res.status(401).json({ error: "Invalid password" });
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Generate JWT token
-    const secret = process.env.JWT_SECRET || "fallback_secret";
     const token = jwt.sign(
-      { id: user.id, role: user.role },
-      secret,
-      { expiresIn: "1h" }
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '24h' }
     );
 
-    // Exclude password before sending back
-    const { password: _, ...safeUser } = user.toJSON();
+    // Return user data (without password) and token
+    const userResponse = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    };
 
-    res.json({ token, user: safeUser });
-  } catch (err) {
-    console.error("🔥 Login error:", err);
-    res.status(500).json({ error: "Login failed: " + err.message });
+    res.json({
+      message: 'Login successful',
+      token,
+      user: userResponse
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get current user profile
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

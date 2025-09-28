@@ -1,19 +1,40 @@
+// src/app/event-list/event-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-event-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatIconModule
+  ],
+  providers: [DatePipe],
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
   events: any[] = [];
   filteredEvents: any[] = [];
+  isLoading = true;
 
   searchQuery: string = '';
   selectedCategory = '';
@@ -26,17 +47,26 @@ export class EventListComponent implements OnInit {
     "MUSIC", "ARTS", "SPORTS", "TECHNOLOGY"
   ];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private eventService: EventService, 
+    private router: Router,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
-    this.http.get<any[]>('/api/events').subscribe({
+    this.loadEvents();
+  }
+
+  loadEvents(): void {
+    this.eventService.getEvents().subscribe({
       next: (data) => {
-        console.log('Events loaded:', data);
         this.events = data;
         this.filteredEvents = data;
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error loading events:', err);
+        this.isLoading = false;
       }
     });
   }
@@ -65,11 +95,16 @@ export class EventListComponent implements OnInit {
       return matchSearch && matchCategory && matchFromDate && matchToDate;
     });
 
-    // Sorting
+    this.sortEvents();
+  }
+
+  sortEvents(): void {
     if (this.selectedSort === 'date') {
-      this.filteredEvents.sort((a, b) =>
+      this.filteredEvents.sort((a, b) => 
         new Date(a.date).getTime() - new Date(b.date).getTime()
       );
+    } else if (this.selectedSort === 'title') {
+      this.filteredEvents.sort((a, b) => a.title.localeCompare(b.title));
     }
   }
 
@@ -77,13 +112,27 @@ export class EventListComponent implements OnInit {
     this.searchQuery = '';
     this.selectedCategory = '';
     this.selectedSort = '';
-    this.fromDate = '';
-    this.toDate = '';
+    this.fromDate = undefined;
+    this.toDate = undefined;
     this.filteredEvents = [...this.events];
   }
 
-  // ✅ Add this method for navigation
   goToEvent(eventId: number): void {
-    this.router.navigate(['/events', eventId]);
+    this.router.navigate(['/event-details', eventId]);
+  }
+
+  searchEvents(): void {
+    if (this.searchQuery.trim()) {
+      this.eventService.searchEvents(this.searchQuery).subscribe({
+        next: (data) => {
+          this.filteredEvents = data;
+        },
+        error: (err) => {
+          console.error('Search failed:', err);
+        }
+      });
+    } else {
+      this.filteredEvents = [...this.events];
+    }
   }
 }

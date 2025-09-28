@@ -1,115 +1,571 @@
-/* General Container Styling */
+/* Register Component Styles - White Focused with Green Accents */
 .register-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f8e9 100%);
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-}
-/* Login Link Styling */
-.login-link {
-  font-size: 14px;
-  margin-top: 15px;
-  text-align: center; /* Center the link for consistency */
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
 }
 
-.login-link a {
-  color: #4CAF50; /* Green color for the link */
-  text-decoration: none;
+.register-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(76, 175, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(76, 175, 80, 0.03) 0%, transparent 50%);
 }
 
-.login-link a:hover {
-  text-decoration: underline;
-}
-
-
-/* Card Styling */
-.register-card {
+.register-card-container {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 50px;
+  max-width: 1000px;
   width: 100%;
-  max-width: 400px; /* Adjusted to match the login width */
-  padding: 30px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  position: relative;
+  z-index: 2;
+}
+
+/* Register Card */
+.register-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8f5e9;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.register-card:hover {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.register-card mat-card-header {
+  background: linear-gradient(135deg, #f8fff8 0%, #f1f8e9 100%);
+  padding: 40px 40px 20px;
+  text-align: center;
+  border-bottom: 1px solid #e8f5e9;
+}
+
+.register-card mat-card-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.register-card mat-card-subtitle {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.register-card mat-card-content {
+  padding: 40px;
+}
+
+/* Register Form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Material Form Field Styling */
+::ng-deep .mat-form-field-outline {
+  border-color: #e0e0e0 !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-outline-thick {
+  color: #4caf50 !important;
+}
+
+::ng-deep .mat-form-field-label {
+  color: #7f8c8d !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #4caf50 !important;
+}
+
+::ng-deep .mat-input-element {
+  color: #2c3e50 !important;
+  font-size: 1rem;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #e0e0e0;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #4caf50;
+}
+
+::ng-deep .mat-form-field-suffix {
+  color: #95a5a6;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.strength-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.strength-weak { background: #f44336; width: 25%; }
+.strength-fair { background: #ff9800; width: 50%; }
+.strength-good { background: #4caf50; width: 75%; }
+.strength-strong { background: #2e7d32; width: 100%; }
+
+.strength-text {
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Register Button */
+.register-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+}
+
+.register-btn:hover:not([disabled]) {
+  background: #66bb6a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+.register-btn[disabled] {
+  background: #bdbdbd;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 30px 0;
+  color: #95a5a6;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.divider span {
+  padding: 0 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Login Link */
+.login-link {
   text-align: center;
 }
 
-/* Title Styling */
-.register-card h2 {
-  font-size: 24px;
-  color: #4CAF50;
-  margin-bottom: 20px;
+.login-link p {
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.login-link button {
+  color: #4caf50;
   font-weight: 600;
-  margin-top: 0;
+  padding: 10px 25px;
+  border: 2px solid #4caf50;
+  border-radius: 25px;
+  transition: all 0.3s ease;
 }
 
-/* Input Fields Styling */
-mat-form-field {
-  width: 100%;
-  margin-bottom: 20px;
+.login-link button:hover {
+  background: #4caf50;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
-mat-form-field input {
-  padding: 12px;
-  font-size: 16px;
-  height: 45px;
+/* Benefits Sidebar */
+.benefits-sidebar {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8f5e9;
+  height: fit-content;
+  position: sticky;
+  top: 40px;
 }
 
-mat-form-field input::placeholder {
-  color: #999; /* Lighter color for placeholder text */
-  font-size: 14px;
+.benefits-sidebar h3 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
 }
 
-/* Register Link Styling */
-.register-link {
-  font-size: 14px;
+.benefits-sidebar h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #4caf50;
+  border-radius: 2px;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefits-list li {
+  padding: 14px 0;
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 500;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.benefits-list li:last-child {
+  border-bottom: none;
+}
+
+.benefits-list li:hover {
+  color: #4caf50;
+  transform: translateX(5px);
+}
+
+.benefits-list li::before {
+  font-size: 1.1rem;
+  min-width: 24px;
+  color: #4caf50;
+}
+
+/* Terms and Conditions */
+.terms-agreement {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   margin-top: 15px;
+  padding: 15px;
+  background: #f8fff8;
+  border-radius: 8px;
+  border: 1px solid #e8f5e9;
 }
 
-.register-link a {
-  color: #4CAF50;
+.terms-agreement input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: #4caf50;
+}
+
+.terms-agreement label {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  line-height: 1.4;
+}
+
+.terms-agreement a {
+  color: #4caf50;
   text-decoration: none;
+  font-weight: 500;
 }
 
-.register-link a:hover {
+.terms-agreement a:hover {
   text-decoration: underline;
 }
 
-/* Register Button Styling */
-button.full-width {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 16px;
+/* Loading Animation */
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: bounce 1.4s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Error States */
+.error-message {
+  background: #ffebee;
+  color: #d32f2f;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ffcdd2;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-message::before {
+  content: '⚠️';
+  font-size: 1rem;
+}
+
+.password-match-error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Success States */
+.success-message {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #c8e6c9;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-message::before {
+  content: '✅';
+  font-size: 1rem;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .register-card-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    max-width: 500px;
+  }
+  
+  .benefits-sidebar {
+    order: -1;
+    position: static;
+  }
+  
+  .register-card mat-card-header {
+    padding: 30px 20px 15px;
+  }
+  
+  .register-card mat-card-content {
+    padding: 30px 20px;
+  }
+  
+  .register-card mat-card-title {
+    font-size: 1.8rem;
+  }
+  
+  .benefits-sidebar {
+    padding: 30px 20px;
+  }
+  
+  .benefits-sidebar h3 {
+    font-size: 1.3rem;
+  }
+  
+  .benefits-list li {
+    font-size: 0.9rem;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 20px 15px;
+  }
+  
+  .register-card mat-card-header {
+    padding: 25px 15px 15px;
+  }
+  
+  .register-card mat-card-content {
+    padding: 25px 15px;
+  }
+  
+  .register-card mat-card-title {
+    font-size: 1.6rem;
+  }
+  
+  .register-form {
+    gap: 15px;
+  }
+  
+  .register-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+  
+  .terms-agreement {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Additional Enhancements */
+.password-toggle {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+  color: #4caf50;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Focus States for Accessibility */
+button:focus,
+a:focus,
+::ng-deep .mat-form-field.mat-focused .mat-form-field-outline-thick {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+/* Password Validation Styles */
+.password-hints {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-top: 10px;
+}
+
+.password-hints h4 {
+  color: #2c3e50;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
   font-weight: 600;
-  border-radius: 5px;
 }
 
-button.full-width:hover {
-  background-color: #45a049;
+.password-hints ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 600px) {
+.password-hints li {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.password-hints li.valid {
+  color: #4caf50;
+}
+
+.password-hints li.valid::before {
+  content: '✓';
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.password-hints li.invalid::before {
+  content: '○';
+  color: #bdbdbd;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .register-card,
+  .register-btn,
+  .benefits-list li,
+  .login-link button {
+    transition: none;
+  }
+  
+  .register-card:hover,
+  .register-btn:hover:not([disabled]),
+  .benefits-list li:hover,
+  .login-link button:hover {
+    transform: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
   .register-card {
-    padding: 20px;
+    border: 2px solid #2c3e50;
   }
-
-  .register-card h2 {
-    font-size: 22px;
+  
+  .benefits-sidebar {
+    border: 2px solid #2c3e50;
   }
-
-  mat-form-field input {
-    font-size: 14px;
-    height: 40px;
-  }
-
-  button.full-width {
-    font-size: 14px;
+  
+  .register-btn {
+    border: 2px solid #2c3e50;
   }
 }

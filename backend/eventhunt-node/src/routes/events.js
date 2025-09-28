@@ -1,12 +1,27 @@
-// src/routes/events.js
-import express from "express";
-import { createEvent, getEvents, getEventById } from "../controllers/eventController.js";
-import { authenticateToken } from "../middleware/authMiddleware.js";
+// backend/eventhunt-node/src/routes/events.js
+import express from 'express';
+import {
+  createEvent,
+  getEvents,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+  getEventsByOrganizer,
+  searchEvents
+} from '../controllers/eventController.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post("/", authenticateToken, createEvent);   // Protected
-router.get("/", getEvents);                         // Public
-router.get("/:id", getEventById);                   // Public
+// Public routes
+router.get('/', getEvents);
+router.get('/search', searchEvents);
+router.get('/:id', getEventById);
+
+// Protected routes
+router.post('/', authenticateToken, createEvent);
+router.put('/:id', authenticateToken, updateEvent);
+router.delete('/:id', authenticateToken, deleteEvent);
+router.get('/organizer/:organizerId', authenticateToken, getEventsByOrganizer);
 
 export default router;

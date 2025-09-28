@@ -1,4 +1,9 @@
-<footer class="footer">
+<footer class="footer" [class]="getSeasonalTheme()">
+  <!-- Back to Top Button -->
+  <div class="back-to-top" *ngIf="showBackToTop" (click)="scrollToTop()">
+    <i class="fas fa-chevron-up"></i>
+  </div>
+
   <div class="footer-bar">
     <!-- Left: Logo -->
     <div class="footer-logo">
@@ -8,24 +13,43 @@
     <!-- Center: Links + copyright below -->
     <div class="footer-center">
       <div class="footer-links">
-        <a href="#">Cookies Setting</a>
-        <a href="#">Accessibility</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms and Conditions</a>
-        <a href="#">FAQ’s</a>
+        <a href="#" (click)="$event.preventDefault()">Cookies Setting</a>
+        <a href="#" (click)="$event.preventDefault()">Accessibility</a>
+        <a href="#" (click)="$event.preventDefault()">Privacy Policy</a>
+        <a href="#" (click)="$event.preventDefault()">Terms and Conditions</a>
+        <a href="#" (click)="$event.preventDefault()">FAQ's</a>
       </div>
-      <p class="footer-copy-center">© 2025 EventHunt App</p>
+      <p class="footer-copy-center">© {{currentYear}} EventHunt App</p>
     </div>
 
-    <!-- Right: Social icons + App Store -->
+    <!-- Right: Social icons -->
     <div class="footer-right">
       <span class="footer-follow">Follow us On</span>
       <div class="footer-icons">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
       </div>
-     
     </div>
   </div>
+
+  <!-- Optional Newsletter Section -->
+  <div class="footer-newsletter" *ngIf="false"> <!-- Set to true to enable -->
+    <div class="newsletter-form">
+      <input 
+        type="email" 
+        class="newsletter-input" 
+        placeholder="Enter your email for updates"
+      >
+      <button class="newsletter-btn">Subscribe</button>
+    </div>
+  </div>
+
+
 </footer>

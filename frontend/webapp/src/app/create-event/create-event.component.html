@@ -1,15 +1,193 @@
-<div class="create-event">
-  <h2>Create New Event</h2>
-  <form (ngSubmit)="onCreateEvent()">
-    <label>Title</label>
-    <input type="text" [(ngModel)]="title" name="title" required />
+<!-- src/app/create-event/create-event.component.html -->
+<div class="create-event-container">
+  <div class="container">
+    <div class="create-event-card">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Create New Event</mat-card-title>
+          <mat-card-subtitle>Fill in the details below to create your event</mat-card-subtitle>
+        </mat-card-header>
 
-    <label>Description</label>
-    <textarea [(ngModel)]="description" name="description" required></textarea>
+        <mat-card-content>
+          <form (ngSubmit)="createEvent()" class="event-form">
+            <!-- Title -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Event Title</mat-label>
+              <input 
+                matInput 
+                [(ngModel)]="event.title" 
+                name="title" 
+                required
+                placeholder="Enter event title"
+                maxlength="100"
+              >
+              <mat-icon matSuffix>title</mat-icon>
+              <mat-hint>Be descriptive and engaging</mat-hint>
+              <mat-error>Event title is required</mat-error>
+            </mat-form-field>
 
-    <label>Date</label>
-    <input type="datetime-local" [(ngModel)]="date" name="date" required />
+            <!-- Description -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea 
+                matInput 
+                [(ngModel)]="event.description" 
+                name="description"
+                placeholder="Describe your event... What can attendees expect?"
+                rows="4"
+                maxlength="500"
+              ></textarea>
+              <mat-icon matSuffix>description</mat-icon>
+              <mat-hint>Maximum 500 characters</mat-hint>
+            </mat-form-field>
 
-    <button type="submit">Create Event</button>
-  </form>
+            <!-- Date and Location Row -->
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Event Date & Time</mat-label>
+                <input 
+                  matInput 
+                  [(ngModel)]="event.date" 
+                  name="date" 
+                  type="datetime-local"
+                  required
+                >
+                <mat-icon matSuffix>calendar_today</mat-icon>
+                <mat-error>Event date and time are required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Location</mat-label>
+                <input 
+                  matInput 
+                  [(ngModel)]="event.location" 
+                  name="location" 
+                  required
+                  placeholder="Event venue or address"
+                >
+                <mat-icon matSuffix>location_on</mat-icon>
+                <mat-error>Location is required</mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Category and Max Attendees Row -->
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Category</mat-label>
+                <mat-select [(ngModel)]="event.category" name="category" required>
+                  <mat-option value="">Select a category</mat-option>
+                  <mat-option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>category</mat-icon>
+                <mat-error>Please select a category</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Maximum Attendees</mat-label>
+                <input 
+                  matInput 
+                  type="number" 
+                  [(ngModel)]="event.maxAttendees" 
+                  name="maxAttendees"
+                  placeholder="Leave empty for unlimited"
+                  min="1"
+                  max="10000"
+                >
+                <mat-icon matSuffix>people</mat-icon>
+                <mat-hint>Set a limit or leave unlimited</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Form Validation Summary -->
+            <div *ngIf="!event.title || !event.date || !event.location || !event.category" 
+                 class="validation-warning">
+              <mat-icon>info</mat-icon>
+              <span>Please fill in all required fields to create your event</span>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button 
+                type="button" 
+                mat-button 
+                routerLink="/events"
+                class="cancel-btn"
+              >
+                <mat-icon>arrow_back</mat-icon>
+                Cancel
+              </button>
+              
+              <button 
+                type="submit" 
+                mat-raised-button 
+                color="primary"
+                [disabled]="isLoading || !event.title || !event.date || !event.location || !event.category"
+                class="submit-btn"
+              >
+                <mat-icon *ngIf="!isLoading">event_available</mat-icon>
+                <span *ngIf="!isLoading">Create Event</span>
+                <span *ngIf="isLoading" class="loading-text">
+                  <span class="loading-dots">Creating</span>
+                </span>
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>lightbulb</mat-icon>
+            Tips for Creating Great Events
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul class="tips-list">
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>Clear Title:</strong> Make it descriptive and engaging
+              </div>
+            </li>
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>Detailed Description:</strong> Explain what attendees will experience
+              </div>
+            </li>
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>Accurate Date & Time:</strong> Double-check timezone considerations
+              </div>
+            </li>
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>Specific Location:</strong> Include full address or clear directions
+              </div>
+            </li>
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>Appropriate Category:</strong> Helps attendees find your event
+              </div>
+            </li>
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>Realistic Capacity:</strong> Set limits based on your venue
+              </div>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>

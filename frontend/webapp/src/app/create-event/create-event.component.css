@@ -1,0 +1,414 @@
+/* Create Event Component Styles - White Focused with Green Accents */
+.create-event-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f8e9 100%);
+  padding: 40px 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.create-event-card {
+  grid-column: 1;
+}
+
+.help-section {
+  grid-column: 2;
+  position: sticky;
+  top: 40px;
+}
+
+/* Card Styling */
+.create-event-card mat-card,
+.help-section mat-card {
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8f5e9;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.create-event-card mat-card:hover,
+.help-section mat-card:hover {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.create-event-card mat-card-header {
+  background: linear-gradient(135deg, #f8fff8 0%, #f1f8e9 100%);
+  padding: 30px 30px 15px;
+  border-bottom: 1px solid #e8f5e9;
+}
+
+.create-event-card mat-card-title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.create-event-card mat-card-subtitle {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.create-event-card mat-card-content {
+  padding: 30px;
+}
+
+/* Form Styling */
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 100%;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Material Form Field Styling */
+::ng-deep .mat-form-field-outline {
+  border-color: #e0e0e0 !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-outline-thick {
+  color: #4caf50 !important;
+}
+
+::ng-deep .mat-form-field-label {
+  color: #7f8c8d !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #4caf50 !important;
+}
+
+::ng-deep .mat-input-element {
+  color: #2c3e50 !important;
+  font-size: 1rem;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #e0e0e0;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #4caf50;
+}
+
+::ng-deep .mat-form-field-suffix {
+  color: #95a5a6;
+}
+
+::ng-deep .mat-form-field-hint {
+  color: #95a5a6;
+  font-size: 0.8rem;
+}
+
+::ng-deep .mat-error {
+  font-size: 0.8rem;
+}
+
+/* Select Dropdown Styling */
+::ng-deep .mat-select-value {
+  color: #2c3e50 !important;
+}
+
+::ng-deep .mat-select-arrow {
+  color: #95a5a6 !important;
+}
+
+/* Validation Warning */
+.validation-warning {
+  background: #fff3e0;
+  border: 1px solid #ffb74d;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e65100;
+  font-size: 0.9rem;
+}
+
+.validation-warning mat-icon {
+  color: #ff9800;
+  font-size: 1.2rem;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e8f5e9;
+}
+
+.cancel-btn {
+  color: #7f8c8d;
+  border: 1px solid #e0e0e0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cancel-btn:hover {
+  background: #f5f5f5;
+  border-color: #bdbdbd;
+  transform: translateY(-1px);
+}
+
+.submit-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.submit-btn:hover:not([disabled]) {
+  background: #66bb6a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+.submit-btn[disabled] {
+  background: #bdbdbd;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading Animation */
+.loading-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* Help Section Styling */
+.help-section mat-card-header {
+  background: linear-gradient(135deg, #f8fff8 0%, #f1f8e9 100%);
+  padding: 25px 25px 15px;
+  border-bottom: 1px solid #e8f5e9;
+}
+
+.help-section mat-card-title {
+  color: #2c3e50;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.help-section mat-card-title mat-icon {
+  color: #4caf50;
+}
+
+.help-section mat-card-content {
+  padding: 25px;
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tips-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #2c3e50;
+}
+
+.tips-list mat-icon {
+  color: #4caf50;
+  font-size: 1.1rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.tips-list strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .create-event-container {
+    padding: 20px 0;
+  }
+  
+  .container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 15px;
+  }
+  
+  .help-section {
+    grid-column: 1;
+    position: static;
+  }
+  
+  .create-event-card mat-card-header {
+    padding: 25px 20px 15px;
+  }
+  
+  .create-event-card mat-card-content {
+    padding: 25px 20px;
+  }
+  
+  .create-event-card mat-card-title {
+    font-size: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .cancel-btn,
+  .submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-event-container {
+    padding: 15px 0;
+  }
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  .create-event-card mat-card-header {
+    padding: 20px 15px 10px;
+  }
+  
+  .create-event-card mat-card-content {
+    padding: 20px 15px;
+  }
+  
+  .create-event-card mat-card-title {
+    font-size: 1.3rem;
+  }
+  
+  .event-form {
+    gap: 20px;
+  }
+  
+  .help-section mat-card-content {
+    padding: 20px 15px;
+  }
+}
+
+/* Focus States for Accessibility */
+button:focus,
+input:focus,
+::ng-deep .mat-form-field.mat-focused .mat-form-field-outline-thick {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+/* Character Counter */
+.char-counter {
+  font-size: 0.8rem;
+  color: #95a5a6;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.char-counter.warning {
+  color: #ff9800;
+}
+
+.char-counter.error {
+  color: #f44336;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .create-event-card mat-card,
+  .help-section mat-card,
+  .cancel-btn,
+  .submit-btn {
+    transition: none;
+  }
+  
+  .create-event-card mat-card:hover,
+  .help-section mat-card:hover,
+  .cancel-btn:hover,
+  .submit-btn:hover:not([disabled]) {
+    transform: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .create-event-card mat-card,
+  .help-section mat-card {
+    border: 2px solid #2c3e50;
+  }
+  
+  .submit-btn {
+    border: 2px solid #2c3e50;
+  }
+}
