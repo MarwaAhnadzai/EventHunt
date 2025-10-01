@@ -1,4 +1,3 @@
-// backend/eventhunt-node/src/models/Event.js
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database.js';
 
@@ -25,7 +24,7 @@ export const Event = sequelize.define('Event', {
     allowNull: false
   },
   category: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('CONFERENCE', 'MUSIC', 'WORKSHOP', 'SPORTS', 'ART', 'OTHER'),
     allowNull: false
   },
   maxAttendees: {
@@ -34,11 +33,13 @@ export const Event = sequelize.define('Event', {
   },
   organizerId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    }
   }
 }, {
   tableName: 'events',
   timestamps: true
 });
-
-export default Event;

@@ -1,4 +1,3 @@
-// backend/eventhunt-node/src/controllers/associations.js
 import { Event } from '../models/Event.js';
 import { User } from '../models/User.js';
 import { Ticket } from '../models/Ticket.js';

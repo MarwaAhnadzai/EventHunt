@@ -1,18 +1,17 @@
-// backend/eventhunt-node/src/config/database.js
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Create Sequelize instance
+// Create Sequelize instance for PostgreSQL
 export const sequelize = new Sequelize(
   process.env.DB_NAME || 'eventhunt',
-  process.env.DB_USER || 'root',
-  process.env.DB_PASSWORD || '',
+  process.env.DB_USER || 'postgres', // Changed from 'root' to 'postgres'
+  process.env.DB_PASSWORD || 'event1234',
   {
     host: process.env.DB_HOST || 'localhost',
-    dialect: 'mysql',
-    port: process.env.DB_PORT || 3306,
+    dialect: 'postgres',
+    port: process.env.DB_PORT || 5432,
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {
       max: 5,
@@ -27,10 +26,10 @@ export const sequelize = new Sequelize(
 export const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Database connection established successfully.');
+    console.log('✅ PostgreSQL connection established successfully.');
     return true;
   } catch (error) {
-    console.error('❌ Unable to connect to the database:', error);
+    console.error('❌ Unable to connect to PostgreSQL database:', error.message);
     return false;
   }
 };

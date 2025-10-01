@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,13 @@ import { Observable } from 'rxjs';
 export class EventService {
   private apiUrl = 'http://localhost:5000/api/events';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService // Inject AuthService
+  ) {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
+    const token = this.authService.getToken(); // Use AuthService method
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -19,7 +23,7 @@ export class EventService {
   }
 
   private getToken(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem('auth_token');
   }
 
   // Fetch all events (with optional filters)
@@ -71,6 +75,6 @@ export class EventService {
   // Search events
   searchEvents(searchQuery: string): Observable<any> {
     const params = new HttpParams().set('search', searchQuery);
-    return this.http.get(this.apiUrl, { params });
+return this.http.get(`${this.apiUrl}/search`, { params });
   }
 }

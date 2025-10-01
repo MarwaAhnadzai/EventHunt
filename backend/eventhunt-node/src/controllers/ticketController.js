@@ -1,7 +1,7 @@
 // src/controllers/ticketController.js
 // Handles RSVP / Ticket registration
 
-import Ticket from "../models/ticketModel.js";
+import Ticket from "../models/Ticket.js";
 
 // RSVP to an event
 export const rsvpEvent = async (req, res) => {
